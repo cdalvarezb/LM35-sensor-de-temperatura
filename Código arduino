@@ -1,0 +1,32 @@
+nt valADC;
+float valor;                                         //Declaramos variable de tipo entero val
+float voltaje;
+float temperatura ; 
+void setup() {
+Serial.begin (9600);                             //Inicializamos la comunicacion serial a 9600bps
+pinMode(6,OUTPUT);                               //Asignamos el pin 6 como salida (Led Verde)
+pinMode(7,OUTPUT);                               //Asignamos el pin 7 como salida (Led Rojo)
+}
+
+void loop() {
+valADC = analogRead (A1);                           //Realiza la lectura del pin A1 (Sensor) y el valor lo guarda en la variable val
+valor = valADC -(0.55*(1024)/5);                    //Declaramos variable de tipo float y operamos para obtener el resultado en celsius (grados centigrados)
+voltaje = (valor*5.0)/1024.0;                              //Declaramos variable de tipo float y operamos para obtener el resultado en celsius (grados centigrados)
+temperatura= voltaje*(1.0/0.01);
+Serial.print("votaje:");
+Serial.println(voltaje);
+Serial.print ("TEMPERATURE = ");                 //Imprimimos en pantalla TEMPERATURE =
+Serial.print (temperatura);                             //Imprimimos el valor de la variable temp
+Serial.print ("*C");                             //Imprimimos en pantalla *C
+Serial.println ();                               //Salto de linea
+
+if(temperatura>37.6){                                   //Si temp es mayor que 37.6
+    digitalWrite(6,LOW);                         //Apaga el Led Verde
+    digitalWrite(7,HIGH);                        //Prende el Led Rojo
+}
+else{                                            //Si temp NO es mayor que 37.6
+  digitalWrite(6,HIGH);                          //Prende el Led Verde
+  digitalWrite(7,LOW);                           //Apaga el Led Rojo
+  }
+delay(1000);                                     //Espera de 1 segundo
+}
